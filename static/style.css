@@ -1,0 +1,270 @@
+/* =============================== Home page when signed out */
+
+.home-anon {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    left: 0;
+    z-index: -1;
+    background-image: url('/static/images/pug_home_page.jpg');
+    background-size: cover;
+    background-position: center center;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+
+
+/* ============================= Nav Bar */
+.navbar {
+    background-color: #fff;
+    height: 46px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 9999;
+}
+  
+.navbar a {
+    color: #66757f;
+    font-size: 20px;
+    font-weight: bold;
+}
+  
+.navbar a:hover {
+    color: #1c94e0;
+}
+  
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+  
+.navbar-brand > img {
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-right: 5px;
+    width: 20px;
+    border-radius: 2px;
+}
+  
+.nav > li > a > img {
+    width: 32px;
+    border-radius: 32px;
+}
+  
+ul.nav.navbar-nav {
+    align-items: center;
+}
+  
+ul.nav.navbar-nav li {
+    margin: 0 0.5rem;
+    display: flex;
+}
+  
+nav form.navbar-form {
+    display: flex;
+    position: relative;
+}
+  
+#search.form-control {
+    border-radius: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    font-size: 13px;
+    padding-right: 28px;
+    box-sizing: border-box;
+}
+  
+#search.form-control + .btn {
+    position: absolute;
+    right: 9px;
+    top: 2px;
+    bottom: 4px;
+    z-index: 1;
+    padding: 0;
+    color: #66757f;
+}
+  
+#search.form-control + .btn:active,
+#search.form-control + .btn:focus {
+    box-shadow: none;
+}
+  
+#search:active,
+#search:focus {
+    box-shadow: none;
+    border: 2px solid #007bff;
+}
+  
+  /* on "onboarding" pages (signup & login), the navbar is
+     different: no search box, the logo is centered, and it has
+     a background color.
+   */
+  
+.onboarding > .navbar {
+   background-color: #66757f;
+}
+  
+.onboarding .navbar-brand img {
+    display: none;
+}
+  
+.onboarding .nav.navbar-nav.navbar-right {
+    position: absolute;
+    right: 16px;
+}
+  
+.onboarding > .navbar a {
+    color: #fff;
+}
+  
+.onboarding > .navbar form.navbar-form {
+    display: none;
+}
+  
+.onboarding {
+    height: 100vh;
+    width: 100vw;
+    background-image: url('/static/images/pug_signup.jpg');
+    background-size: cover;
+    background-position: center;
+}
+  
+@media (max-width: 468px) {
+    nav form.navbar-form {
+      display: none;}
+}
+  
+nav + .container {
+    margin-bottom: 1rem;
+}
+  
+
+/* ======== user detail ============= */
+#profile-header {
+    height: 360px;
+    margin-top: -16px;
+    opacity: 0.7;
+    background-image: url('/static/images/image_header.jpg');
+    background-size: cover;
+    background-position: top center;
+}
+
+.join-message {
+    margin-top: 100px;
+  }
+  
+#profile-image,
+#profile-avatar {
+    border-radius: 100%;
+    display: block;
+    margin-left: -15px;
+  }
+  
+#profile-image {
+    margin: 0 auto 15px;
+    width: 100%;
+  }
+  
+#profile-avatar {
+    width: 200px;
+    height: 200px;
+    border: 5px solid #fff;
+    margin-top: -120px;
+    z-index: 1;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(136, 153, 166, 0.15);
+  }
+  
+.timeline-image {
+    border-radius: 48px;
+    height: 48px;
+    width: 48px;
+    margin-top: 2px;
+  }
+  
+.message-area,
+.timeline-image {
+    display: inline-block;
+  }
+  
+.message-area {
+    margin-left: 10px;
+  }
+  
+.full-width {
+    width: 100vw;
+    margin: 0 -50vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+  }
+  
+.row.full-width {
+    background-color: #fff;
+    margin-top: -80px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    height: 60px;
+    align-items: center;
+  }
+  
+.user-stats > .ml-auto {
+    display: flex;
+    align-items: center;
+  }
+  
+.user-stats > .ml-auto .btn {
+    min-width: 105px;
+    padding: 6px 16px;
+  }
+  
+.stat {
+    text-align: center;
+    height: 60px;
+    box-sizing: border-box;
+    padding: 14px 15px 7px;
+    line-height: 1;
+  }
+  
+.stat > .small {
+    color: #657786;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    margin-bottom: 0;
+  }
+  
+.stat > .small + h4 {
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 3px;
+  }
+  
+  
+#sidebar-username {
+    margin-top: 30px;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 28px;
+    word-wrap: break-word;
+  }
+  
+@media (max-width: 768px) {
+    .full-width .user-stats .stat {
+      display: none;
+    }
+  }
+  
+.user-location {
+    color: #657786;
+  }

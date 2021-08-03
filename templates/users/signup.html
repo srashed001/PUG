@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body_class %}onboarding{% endblock %}
+
+
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-7 col-lg-5 bg-dark text-white">
+          <h2 class=" display-4 text-center my-2">Join PUG today.</h2>
+          <form method="POST" id="user_form">
+            {{ form.hidden_tag() }}
+      
+            {% for field in form if field.widget.input_type != 'hidden' %}
+              {% for error in field.errors %}
+                <div class="form-text text-danger">
+                    {{error}}
+                </div>
+              {% endfor %}
+              {{ field.label(class_='form-label')}}
+              {{ field(class_="form-control") }}
+            {% endfor %}
+      
+            <button class="my-3 btn btn-primary btn-lg btn-block">Sign me up!</button>
+          </form>
+        </div>
+      </div>
+
+
+
+{% endblock %}

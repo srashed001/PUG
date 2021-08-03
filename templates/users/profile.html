@@ -1,0 +1,41 @@
+{% extends 'users/details.html' %}
+{% block user_details %}
+  <div class="col-sm-6">
+    <div class="list-group" >
+
+      {% for game in games %}
+
+
+          <div class="card mb-3 list-group-item list-group-item-action border-0" >
+      
+            <div class="row g-0 border border-3 shadow">
+                <div class="card-header text-center">
+                    <h3 class="card-text"><a href="" style="text-decoration: none;">Great Game</a></h5>
+                </div>
+              <div class="col-md-4">
+                <img src="/static/profile_pics/{{user.image_file}}" class="img-fluid rounded-circle p-2 align-middle" alt="...">
+              </div>
+              <div class="col-md-4">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/users/{{ user.id }}" style="text-decoration: none;">@{{ user.username }}</a></h5>
+                    
+                    <p class="card-text">Location: Costa Mesa</p>
+                    <p class="card-text">Date: 12/9/2021</p>
+                    <p class="card-text">Time: 1</p>
+                    <p class="card-text">Players Joined: 0</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="text-muted">{{ game.timestamp.strftime('%d %B %Y') }}</span>
+                <form method="POST" action="" class="d-inline float-end">
+                    <button class="btn-lg btn-success">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                  </form>
+            </div>
+            </div>
+        </div>
+        </div>
+      {% endfor %}
+  
+{% endblock %}
