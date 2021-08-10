@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block body_class %}main-site{% endblock %}
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="col-5">
+        <div class="row">
+            <div class="container my-5">
+                <div class="d-flex justify-content-center shadow border border-light rounded user-card-container position-relative">
+                    <img src="/static/profile_pics/{{user.image_file}}" alt="" class="rounded-circle position-absolute top-0 start-50 translate-middle" height="100px" width="100px">
+                    <div class="align-self-end p-3">
+                        <span>{{user.get_fullname()}}</span><br>
+                        <span>{{user.get_location()}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <h1 class="font-monospace">courts in your area</h2><hr>
+                <form class="p-5">
+                    {{ form.hidden_tag() }}
+                    <div class="container mb-3">
+                        {% for field in form if field.widget.input_type != 'hidden' %}
+                        {{ field.label(class="form-label") }}
+                        {{ field(class="form-control mb-3", id=field.name) }}
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        {% endfor %}
+                        <button class="btn btn-outline-primary" id="find-court-btn">find courts</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <h1 class="font-monospace text-end">park results</h1><hr>
+        <div class="container" id="search-res-container">
+            <div class="list-group list-group-flush" id='court-res-list'>  
+            </div>
+            <div class="container mt-3 d-flex justify-content-center" id="next-pg-container"></div> 
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/courts.js"></script>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block body_class %}{% endblock %}
+
+
+{% block content %}
+<div class="container" id="details" data-curr-user="{{g.user.id}}">
+    <div class="row">
+        <h1 class="text-end font-monospace mt-5">pug details</h1><hr>
+    </div>
+</div>
+<div class="container  p-3 rounded shadow mb-3">
+        <div class="container justify-content-between">
+            <div class="row">
+                <div class="col-8">
+                    <div class="container border border-1" style="height: 300px;" id="map-container" data-lat="{{lat}}" data-lng="{{lng}}" >
+                    <div id="map"></div>
+                    </div>
+                    <p>{{game.address}}</p>
+                </div>
+                <div class="col-4">
+                    <div class="container">
+                        <h1 class="text-capitalize">{{game.title}}</h1>
+                        <p class="m-0"><span class="fa fa-map-marker"></span> {{game.city}}, {{game.state}}</p>
+                        <p class="m-0"><i class="far fa-clock"></i> {{game.time}}</p>
+                        <p class="m-0"><i class="fas fa-user"></i>Organized by <a href="/users/{{game.game_creator.id}}">{{game.game_creator.username}}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="container" style="height: 300px;">
+                <h1 class="font-monospace">description</h1><hr>
+                <p>{{game.description}}</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="container">
+                <div class="row mb-4">
+                    <h3 class="text-center font-monospace">organizer</h1>
+                    <div class="col-4">
+                        <a href="">
+                            <img src="/static/profile_pics/{{game.game_creator.image_file}}" alt="" class="rounded-circle float-end" height="100px" width="100px">
+                        </a> 
+                    </div>
+                    <div class="col">
+                        <div class="container">
+                        <a href="/users/{{game.game_creator.id}}"><small>{{game.game_creator.username}}</small></a><br>
+                        <small class="text-capitalize mb-0"><i class="fas fa-user"></i>{{game.game_creator.first_name}} {{game.game_creator.last_name}}</small><br>
+                        <small class="mb-0"><span class="fa fa-map-marker"></span> {{game.game_creator.city}}, {{game.game_creator.state}}</small>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container m-1">
+    <div class="row">
+        <div class="col-8">
+            <div class="container my-5">
+                <h1 class="font-monospace">message board</h1><hr>
+                <div class="container">
+                    <form action="" class="message-board" data-game-id="{{game.id}}" data-user-id="{{user.id}}">
+                        <div class="mb-3">
+                            <!-- {{form.text.label(class_="form-label")}} -->
+                            {{ form.text(placeholder=form.text.label.text, class="form-control") }}
+                            {% if form.text.errors %}
+                            {% for error in form.text.errors %}
+                            <div class="form-text text-danger">
+                                {{error}}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-success">submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="msg-container">
+                    <div class="list-group list-group-flush my-3">
+                        <div class="list-group-item px-0" id="msg-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="list-group list-group-flush">
+                <h3 class="text-center font-monospace">pug members</h3>
+                {% for user in game.users %}
+                <a href="/users/{{user.id}}" class="list-group-item list-group-item-action position relative">
+                    <img src="/static/profile_pics/{{user.image_file}}" alt="" class="position-absolute top-50 end-0 translate-middle-y translate-middle rounded-circle shadow" height="75px" width="75px">
+                    <p>{{user.username}}</h5><br>
+                    <small>{{user.first_name}}, {{user.last_name}}</small><br>
+                    <p class="text-muted"><span class="fa fa-map-marker"></span> {{user.city}}, {{user.state}}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/messages.js"></script>
+<script src="/static/js/court_details.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIFFhU5QOizA_ObT2xw64nCJYg25Ig8es&callback=initMap&libraries=&v=weekly&channel=2" async></script>
+
+{% endblock %}

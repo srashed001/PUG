@@ -4,7 +4,7 @@
 {% block user_details %}
  
 <div class="col-4">
-    <h2 class=" display-4 text-center my-2">Create your PUG</h2>
+    <h1 class="text-center my-2 font-monospace">edit your pug</h1>
     <div class="container p-3 shadow">
         <form method="POST">
         {{ form.hidden_tag() }}
@@ -90,14 +90,71 @@
                 {{form.time(class_="form-control")}}
             </div>
         </div>
-        <div class="text-center">
-            <button type="submit" class=" my-3 btn btn-outline-primary btn-lg btn-block">Create PUG!</button>
+        <p>To confirm changes, enter your password:</p>
+    
+        <div>
+            {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                <div class="form-text text-danger">
+                    {{error}}
+                </div>
+                {% endfor %}
+            {% endif %}
+    
+        </div>
+        <div class="container d-flex justify-content-center">
+            <button type="submit" class="my-3 btn btn-outline-primary">Update PUG!</button>
         </div>
         </form>
 
     </div>
 
 </div>
+<div class="col-3">
+    <div class="container">
+        <div class="row text-end mb-3">
+            <div class="container ">
+                <a href="/users/{{user.id}}" class="btn btn-outline-secondary">cancel</a>
+                <form action="/games/{{game.id}}/delete" method="POST" class="d-inline">
+                    <button class="delete-game btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this profile')">delete pug</button>
+                </form>  
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="container border border-1" style="height: 300px" id="map-container" data-lat="{{lat}}" data-lng="{{lng}}">
+                <div id="map"></div>
+            </div>
+            <div class="my-3">
+                {%if game.address%}
+                <small>{{game.address}}</small>
+                {% endif %}
+                <small class="">{{game.city}}, {{game.state}}</small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <h3>Game Details</h3><hr>
+            <small class="lead">{{game.title}}</small><br>
+            <small>{{game.date.strftime('%B %d %Y')}}</small><br>
+            <small>{{game.time}}</small><br>
+            <small>Description:</small><br>
+            <small>{{game.description}}</small><br>
+        </div>
+        <div class="row">
+            <h3>Members</h3><hr>
+            {% for user in game.users%}
+            <a href="/users/{{user.id}}"><small class="text-capitalize">{{user.first_name}}, {{user.last_name}}</small></a><br>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+     
+
 
 
 {% endblock %}

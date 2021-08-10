@@ -1,29 +1,84 @@
-{% extends 'base.html' %}
+{% extends 'users/details.html' %}
 
-{% block body_class %}onboarding{% endblock %}
 
-{% block content %}
-
-  <div class="row justify-content-md-center">
-    <div class="col-md-7 col-lg-5 bg-dark text-white">
-      <h2 class="display-4 text-center my-2">Edit Your Profile.</h2>
-      <form method="POST" id="user_form">
+{% block user_details %}
+ 
+<div class="col-4">
+    <h2 class=" display-4 text-center my-2">Edit Profile</h2>
+    <div class="container p-3 shadow">
+        <form method="POST">
         {{ form.hidden_tag() }}
-
-        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
-        <div class="mb-1">
-            {{ field.label(class_='form-label')}}
-            {{ field(class_="form-control") }}
+    
+        <div class="mb-3">
+            {{form.first_name.label(class_="form-label")}}
+            {% if form.first_name.errors %}
+                    {% for error in form.first_name.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {{form.first_name(class_="form-control")}}
         </div>
-            {% for error in field.errors %}
-            <div class="form-text text-danger">
-                {{error}}
+        <div class="mb-3">
+            {{form.last_name.label(class_="form-label")}}
+            {% if form.last_name.errors %}
+                    {% for error in form.last_name.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {{form.last_name(class_="form-control")}}
+        </div>
+        <div class="mb-3">
+            {{form.username.label(class_="form-label")}}
+            {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {{form.username(class_="form-control")}}
+        </div>
+        <div class="mb-3">
+            {{form.email.label(class_="form-label")}}
+            {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {{form.email(class_="form-control")}}
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                {{form.city.label(class_="form-label")}}
+                {% if form.city.errors %}
+                    {% for error in form.city.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {{form.city(class_="form-control")}}
             </div>
-          {% endfor %}
-        {% endfor %}
-
+            <div class="col">
+                {{form.state.label(class_="form-label")}}
+                {% if form.state.errors %}
+                    {% for error in form.state.errors %}
+                    <div class="form-text text-danger">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {{form.state(class_="form-control")}}
+            </div>
+        </div>
         <p>To confirm changes, enter your password:</p>
-
+    
         <div>
             {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
             {% if form.password.errors %}
@@ -33,17 +88,52 @@
                 </div>
                 {% endfor %}
             {% endif %}
-
         </div>
-        
-
-        <div class="edit-btn-area my-3 d-flex justify-content-around">
-          <button class="btn btn-success">Update User Details</button>
-          <a href="/users/profile_pic" class="btn btn-secondary">Update Profile Picture</a>
-          <a href="/users/{{ user.id }}" class="btn btn-danger">Cancel</a>
+        <div class="text-center">
+          <button type="submit" class=" my-3 btn btn-outline-primary btn-lg btn-block" >Update Profile!</button>
         </div>
-      </form>
+        </form>
+    </div>
+</div>
+<div class="col-3">
+  <div class="row">
+    <div class="container text-center mb-3">
+      <img src="/static/profile_pics/{{user.image_file}}" class=" text-center rounded-circle" height="150px" width="150px" > 
+    </div>
+  </div> 
+  <div class="row">
+    <form method="POST" enctype="multipart/form-data">
+      {{ pwd_form.hidden_tag() }}
+      <div>
+          {% for field in pwd_form if field.widget.input_type != 'hidden' %}
+              {{ field.label(class_='form-label') }}
+              {{ field(class_="form-control") }}
+              {% for error in field.errors %}
+              <div class="form-text text-danger">
+                  {{error}}
+              </div>
+            {% endfor %}
+      </div>
+          {% endfor %}
+      <div class="edit-btn-area my-3 d-flex justify-content-around">
+        <button class="btn btn-success">Update Profile Picture</button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="container">
+      <h3>User Details</h3><hr>
+      <small>{{user.get_fullname()}}</small><br>
+      <small>{{user.get_location()}}</small><br>
+      <small>{{user.email}}</small><br>
+      <small>{{user.username}}</small><br>
     </div>
   </div>
+
+      
+
+  </div>
+
+</div>
 
 {% endblock %}

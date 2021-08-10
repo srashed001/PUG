@@ -1,0 +1,56 @@
+{% extends 'users/details.html' %}
+{% block user_details %}
+<div class="col">
+    <div class="container">
+        {% if g.user == user%}
+        <div class="container">
+            <h1 class="text-end font-monospace pe-3 ">your pugs</h1><hr>
+        </div>
+        {% else %}
+        <div class="container">
+            <h1 class="text-end font-monospace pe-3">{{user.username}}'s PUGS</h1><hr>
+        </div>
+        {% endif%}
+    </div>
+    <div class="container ms-4">
+        <div class="list-group list-group-flush my-3">
+          {% for game in games %}
+          <div  class="list-group-item list-group-item-action position-relative">
+              <div class="d-flex justify-content-between ps-5">
+                <h6 class="mb-1">{{game.date.strftime('%B %d')}}@ {{game.time}}</h6>
+                <small>@{{game.game_creator.username}}</small> 
+                <img src="/static/profile_pics/{{game.game_creator.image_file}}" alt="" class="position-absolute top-50 start-0 translate-middle translate-middle rounded-circle shadow" height="75px" width="75px">
+              </div>
+              <a href="/games/{{game.id}}" class="text-decoration-none text-muted">
+                <h5 class="ps-5">{{game.title}}</h5>
+                <p class="ps-5">{{game.city}}, {{game.state}}</p>
+              </a>
+              <div class="d-flex justify-content-between ps-5">
+                <small class="">{{game.users | length}} Attendees</small>
+                {% if g.user.id != game.creator_id and game not in g.user.games%}
+                <button class="btn btn-sm btn-outline-success join-game" type="submit" id="{{game.id}}">join pug</button>
+                {% endif %}
+                {% if g.user.id != game.creator_id and game in g.user.games%}
+                <button class="btn btn-sm btn-outline-danger leave-game" type="submit" id="{{game.id}}">leave pug</button>
+                {% endif %}
+                {% if g.user.id == game.creator_id %}
+                <a href="/games/{{game.id}}/edit" class="btn btn-sm btn-outline-primary leave-game" type="submit">edit pug</a>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+  
+    </div>
+
+
+
+     
+    </div>
+    
+
+{% endblock %}
+
+
+        
+              

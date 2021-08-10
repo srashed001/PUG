@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from flask import g
 
 
 bcrypt = Bcrypt()
@@ -23,6 +24,8 @@ class User_Game(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey('games.id', ondelete='cascade'), primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
+    game = db.relationship('Game')
+
 
 class Game(db.Model):
     
@@ -38,7 +41,23 @@ class Game(db.Model):
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
 
-    messages = db.relationship('Messages' )
+    users = db.relationship('User', secondary='user_games')
+
+    def serialize(self):
+        return {
+        'id': self.id, 
+        'title': self.title,
+        'description': self.description,
+        'city': self.city,
+        'state': self.state,
+        'creator_id': self.creator_id,
+        'creator_img_file':self.game_creator.image_file if self.creator_id else "default.jpg", 
+        'creator_username':self.game_creator.username if self.creator_id else None, 
+        'members':len(self.users), 
+        'creator_img_file':self.game_creator.image_file if self.creator_id else "default.jpg", 
+        'date': self.date.strftime('%B %d'),
+        'time': self.time.strftime('%H:%M%p'),
+    }
 
 
 class User(db.Model):
@@ -124,10 +143,7 @@ class User(db.Model):
         return False 
 
 
-
-
-
-class Messages(db.Model):
+class Message(db.Model):
 
     __tablename__ = 'message_boards'
 
@@ -136,15 +152,61 @@ class Messages(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     text = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
+    user = db.relationship('User', backref='messages')
+    game = db.relationship('Game', backref='messages')
+
+    def __repr__(self):
+        return f"<Message #{self.id}: user_id:{self.user_id}, game_id:{self.game_id}>"
+
+    def serialize(self):
+        return {
+        'id': self.id, 
+        'game_id': self.game_id,
+        'user_id': self.user_id,
+        'text': self.text,
+        'timestamp': self.timestamp,
+        'user_name': self.user.get_fullname(),
+    }
+
+
+class Court(db.Model):
+
+    __tablename__ = 'courts'
+
+    id = db.Column(db.Text, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Float)
+    address = db.Column(db.Text, unique=True)
+    city = db.Column(db.Text, nullable = False)
+    state = db.Column(db.Text, nullable = False)
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
+    url = db.Column(db.Text)
+
+    games = db.relationship('Game', secondary='game_courts', backref='court')
+
+class GameCourt(db.Model):
+
+    __tablename__ = 'game_courts'
+
+    court_id = db.Column(db.Text, db.ForeignKey('courts.id', ondelete='cascade'), primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id', ondelete='cascade'), primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
+class Invite(db.Model):
+
+    __tablename__= 'invites'
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id", ondelete='cascade'))
+    inviter_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete='cascade'))
+    invitee_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete='cascade'))
+    message = db.Column(db.Text, nullable=False)
+    status = db.Column(db.Text, nullable=False, default='pending')
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+
     
 
-
-
-
-
-
 def connect_db(app):
-    """connect to this database to provided flask app"""
-
-    db.app = app 
+    db.app = app
     db.init_app(app)

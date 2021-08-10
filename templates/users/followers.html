@@ -1,0 +1,32 @@
+{% extends 'users/details.html' %}
+{% block user_details %}
+
+  <div class="col">
+    <div class="container">
+        <div class="container">
+          <h1 class="text-end font-monospace pe-3">followers</h1><hr>
+        </div> 
+      <div class="container">
+        <div class="row">
+          <div class="container border border-1">
+            <h5>Needs search bar</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="list-group list-group-flush">
+          {% for follower in user.followers%}
+            <a href="/users/{{follower.id}}" class="list-group-item list-group-item-action position relative">
+              <img src="/static/profile_pics/{{follower.image_file}}" alt="" class="position-absolute top-50 end-0 translate-middle-y translate-middle rounded-circle shadow" height="75px" width="75px">
+              <p>{{follower.username}}</h5><br>
+              <small>{{follower.first_name}}, {{follower.last_name}}</small><br>
+              <p class="text-muted"><span class="fa fa-map-marker"></span> {{follower.city}}, {{follower.state}}</p>
+          </a>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+

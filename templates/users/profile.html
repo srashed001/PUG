@@ -1,41 +1,88 @@
 {% extends 'users/details.html' %}
 {% block user_details %}
-  <div class="col-sm-6">
-    <div class="list-group" >
 
-      {% for game in games %}
+<!-- <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-monospace" id="inviteModallLabel">invite people to your pug</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST">
+          {{ form.hidden_tag() }}
+          <div>
+            {{form.message(class_="form-control", placeholder="send a message with invite")}}
+          </div>
+          <div>
+            {% for follower in user.followers %}
+            
 
+              {{form.friend(class_="form-check-input", name=follower.id, data=follower.id, id=follower.id)}}
+            
+            {% endfor %}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">send invites</button>
+      </div>
+    </div>
+  </div>
+</div> -->
 
-          <div class="card mb-3 list-group-item list-group-item-action border-0" >
-      
-            <div class="row g-0 border border-3 shadow">
-                <div class="card-header text-center">
-                    <h3 class="card-text"><a href="" style="text-decoration: none;">Great Game</a></h5>
-                </div>
-              <div class="col-md-4">
-                <img src="/static/profile_pics/{{user.image_file}}" class="img-fluid rounded-circle p-2 align-middle" alt="...">
-              </div>
-              <div class="col-md-4">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="/users/{{ user.id }}" style="text-decoration: none;">@{{ user.username }}</a></h5>
-                    
-                    <p class="card-text">Location: Costa Mesa</p>
-                    <p class="card-text">Date: 12/9/2021</p>
-                    <p class="card-text">Time: 1</p>
-                    <p class="card-text">Players Joined: 0</p>
-                </div>
-              </div>
-              <div class="card-footer">
-                <span class="text-muted">{{ game.timestamp.strftime('%d %B %Y') }}</span>
-                <form method="POST" action="" class="d-inline float-end">
-                    <button class="btn-lg btn-success">
-                        <i class="fas fa-plus-square"></i>
-                    </button>
-                  </form>
+<div class="col">
+  <div class="container">
+    <div class="container">
+      <h1 class="text-end font-monospace pe-3">pug activity</h1><hr>
+    </div>
+  </div>
+    <div class="container ms-4">
+      <div class="list-group list-group-flush my-3">
+        {% for game in games %}
+        <div href="/games/{{game_id}}" class="list-group-item list-group-item-action position-relative">
+            <div class="d-flex justify-content-between ps-5">
+              <h6 class="mb-1">{{game.date.strftime('%B %d')}}@ {{game.time}}</h6>
+              <small>@{{game.game_creator.username}}</small> 
+              <img src="/static/profile_pics/{{game.game_creator.image_file}}" alt="" class="position-absolute top-50 start-0 translate-middle translate-middle rounded-circle shadow" height="75px" width="75px">
             </div>
+            <a href="/games/{{game.id}}" class="text-decoration-none text-muted">
+              <h5 class="ps-5">{{game.title}}</h5>
+              <p class="ps-5">{{game.city}}, {{game.state}}</p>
+            </a>
+            <div class="d-flex justify-content-between ps-5">
+              <small class="">{{game.users | length}} Attendees</small>
+             <div class="">
+                {% if g.user.id != game.creator_id and game not in g.user.games%}
+                <button class="btn btn-sm btn-outline-success join-game" type="submit" id="{{game.id}}">join pug</button>
+                {% endif %}
+                {% if g.user.id != game.creator_id and game in g.user.games%}
+                <button class="btn btn-sm btn-outline-danger leave-game" type="submit" id="{{game.id}}">leave pug</button>
+                {% endif %}
+                {% if g.user.id == game.creator_id %}
+                <a href="/games/{{game.id}}/edit" class="btn btn-sm btn-outline-primary leave-game" type="submit">edit pug</a>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#inviteModal" data-bs-id="{{game.id}}">send invites</button>
+             </div>
+
+
+              {% endif %}
             </div>
-        </div>
-        </div>
-      {% endfor %}
-  
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+ 
+
+
 {% endblock %}
+
+
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 from flask import g
 from flask_wtf import FlaskForm 
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, PasswordField, TextAreaField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, TextAreaField, BooleanField
 from wtforms.fields.html5 import DateField, TimeField
-from wtforms.validators import DataRequired, Email, Length, ValidationError, InputRequired
+from wtforms.validators import DataRequired, Email, Length, ValidationError, InputRequired, Optional
 from models import User
 
 states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
@@ -68,7 +68,18 @@ class UpdatePhoto(FlaskForm):
     image = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png']), FileRequired()])
 
 
-class AddGameForm(FlaskForm):
+class GameForm(FlaskForm):
+    """Form for creating a game"""
+
+    title = StringField('Title', validators=[InputRequired()])
+    description = TextAreaField('Description', validators=[InputRequired()])
+    address = StringField('Address')
+    city = StringField('City', validators=[InputRequired()])
+    state = SelectField('State', choices =[(s,s) for s in states])
+    date = DateField('PUG Date', format='%Y-%m-%d', validators=[InputRequired()])
+    time = TimeField('PUG Time', validators=[InputRequired()])
+
+class EditGameForm(FlaskForm):
     """Form for creating a game"""
 
     title = StringField('Title', validators=[DataRequired()])
@@ -78,3 +89,29 @@ class AddGameForm(FlaskForm):
     state = SelectField('State', choices =[(s,s) for s in states])
     date = DateField('PUG Date', format='%Y-%m-%d', validators=[InputRequired()])
     time = TimeField('PUG Time', validators=[InputRequired()])
+
+    password = PasswordField('Password', validators=[Length(min=6)])
+
+class AddMessage(FlaskForm):
+    """form for creating a message"""
+
+    text = TextAreaField('add a message', validators = [InputRequired()])
+
+class FindCourtForm(FlaskForm):
+    """form for finding a court"""
+
+    city = StringField('City', validators=[DataRequired()])
+    state = SelectField('State', choices =[(s,s) for s in states])
+
+class FindGame(FlaskForm):
+    """form for finding a game"""
+
+    city = StringField('City', validators=[Optional()])
+    state = SelectField('State', choices =[(s,s) for s in states])
+
+class InviteFriendsForm(FlaskForm):
+
+    message = StringField('Message')
+    friend = BooleanField('friend', default=False)
+
+

@@ -149,22 +149,18 @@ nav + .container {
 
 /* ======== user detail ============= */
 #profile-header {
-    height: 360px;
+    height: 200px;
     margin-top: -16px;
-    opacity: 0.7;
     background-image: url('/static/images/image_header.jpg');
     background-size: cover;
     background-position: top center;
 }
 
-.join-message {
-    margin-top: 100px;
-  }
-  
+
 #profile-image,
 #profile-avatar {
     border-radius: 100%;
-    display: block;
+ 
     margin-left: -15px;
   }
   
@@ -251,20 +247,31 @@ nav + .container {
   }
   
   
-#sidebar-username {
-    margin-top: 30px;
-    font-size: 21px;
-    font-weight: bold;
-    line-height: 28px;
-    word-wrap: break-word;
-  }
-  
+
 @media (max-width: 768px) {
     .full-width .user-stats .stat {
       display: none;
     }
   }
   
-.user-location {
-    color: #657786;
-  }
+
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+  height: 300px;
+}
+
+/* Optional: Makes the sample page fill the window.
+html,
+body {
+  height: 400px;
+  width: 400px;
+  margin: 0;
+  padding: 0;
+} */
+
+.user-card-container {
+  height: 150px;
+  width: 200px;
+
+}
